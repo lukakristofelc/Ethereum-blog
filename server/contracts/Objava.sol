@@ -12,7 +12,6 @@ contract Objava {
     }
 
     Objava[] private objave;
-    //mapping(uint256 => address) objavaAvtor;
 
     function dodajObjavo(string memory vsebina) external {
         uint id = objave.length;

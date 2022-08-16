@@ -101,12 +101,12 @@ function App() {
   return (
     <div>
     {currentAccount === '' ? (
-      <button
-      className='text-2xl font-bold py-3 px-12 bg-[#f1c232] rounded-lg mb-10 hover:scale-105 transition duration-500 ease-in-out'
-      onClick={connectWallet}
-      >
-      Connect Wallet
-      </button>
+      <div>
+        <h1 style={{textAlign: 'center'}}>ETHEREUM BLOG</h1>
+        <button onClick={connectWallet}>
+          Connect Wallet
+        </button>
+      </div>
       ) : correctNetwork ? (
         <div className='app'>
           {
@@ -133,12 +133,10 @@ function App() {
           }
         </div>
       ) : (
-      <div className='flex flex-col justify-center items-center mb-20 font-bold text-2xl gap-y-3'>
-      <div>----------------------------------------</div>
-      <div>Please connect to the Rinkeby Testnet</div>
-      <div>and reload the page</div>
-      <div>----------------------------------------</div>
-      </div>
+        <div>
+          <h1 style={{textAlign: 'center'}}>ETHEREUM BLOG</h1>
+          <p>Please connect your Rinkeby Testnet Wallet and reload the page.</p>
+        </div>
     )}
     </div>
   );
