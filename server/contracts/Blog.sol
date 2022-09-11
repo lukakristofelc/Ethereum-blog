@@ -2,7 +2,7 @@ pragma solidity ^0.8.9;
 
 contract Blog {
 
-    event DodajObjavo(address avtor);
+    //event DodajObjavo(address avtor);
 
     struct Objava {
         address avtor;
@@ -14,7 +14,7 @@ contract Blog {
 
     function dodajObjavo(string memory vsebina) external {
         objave.push(Objava(msg.sender, vsebina, block.timestamp));
-        emit DodajObjavo(msg.sender);
+        //emit DodajObjavo(msg.sender);
     }
 
     function vseObjave() external view returns (Objava[] memory) {
