@@ -1,11 +1,10 @@
 pragma solidity ^0.8.9;
 
-contract Objava {
+contract Blog {
 
-    event DodajObjavo(address avtor, uint id);
+    event DodajObjavo(address avtor);
 
     struct Objava {
-        uint id;
         address avtor;
         string vsebina;
         uint timestamp;
@@ -14,9 +13,8 @@ contract Objava {
     Objava[] private objave;
 
     function dodajObjavo(string memory vsebina) external {
-        uint id = objave.length;
-        objave.push(Objava(id, msg.sender, vsebina, block.timestamp));
-        emit DodajObjavo(msg.sender, id);
+        objave.push(Objava(msg.sender, vsebina, block.timestamp));
+        emit DodajObjavo(msg.sender);
     }
 
     function vseObjave() external view returns (Objava[] memory) {

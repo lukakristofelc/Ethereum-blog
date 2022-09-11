@@ -3,7 +3,7 @@ import {useState, useEffect} from "react"
 import { ObjavaComponent } from './Components/ObjavaComponent/ObjavaComponent'
 import { ObjavaContractAddress } from './config';
 import {ethers} from 'ethers';
-import Objava from './utils/Objava.json'
+import Blog from './utils/Blog.json'
 
 function App() {
   const [currentAccount, setCurrentAccount] = useState('');
@@ -15,18 +15,21 @@ function App() {
     try {
       const {ethereum} = window
 
-      if(ethereum) {
+      if (ethereum) {
         const provider = new ethers.providers.Web3Provider(ethereum);
         const signer = provider.getSigner();
         const ObjavaContract = new ethers.Contract(
           ObjavaContractAddress,
-          Objava.abi,
+          Blog.abi,
           signer
         )
 
         let novaObjava = await ObjavaContract.dodajObjavo(input);
+
+        setInput("");
+
         let objaveList = await ObjavaContract.vseObjave();
-        
+    
         setDataList(objaveList);
       } else {
         console.log("Ethereum object doesn't exist");
@@ -46,20 +49,20 @@ function App() {
       }
 
       let chainId = await ethereum.request({method: 'eth_chainId'});
-
-      if(chainId != '0x4')
+      console.log(chainId);
+      /*if(chainId != '0x5')
       {
-        alert("You are not on Rinkeby Testnet!");
+        alert("You are not on Goerli Testnet!");
         setCorrectNetwork(false);
         return;
       }
       else
-      {
+      {*/
         setCorrectNetwork(true);
-      }
+      //}
 
       const accounts = await ethereum.request({method: 'eth_requestAccounts'});
-
+      console.log(accounts);
       setCurrentAccount(accounts[0]);
     } catch (e) {
       console.log(e);
@@ -79,7 +82,7 @@ function App() {
         const signer = provider.getSigner();
         const ObjavaContract = new ethers.Contract(
           ObjavaContractAddress,
-          Objava.abi,
+          Blog.abi,
           signer
         )
 
@@ -94,7 +97,6 @@ function App() {
   }
 
   useEffect(() => {
-    connectWallet();
     initialize();
   });
 
@@ -102,17 +104,18 @@ function App() {
     <div>
     {currentAccount === '' ? (
       <div>
-        <h1 style={{textAlign: 'center'}}>ETHEREUM BLOG</h1>
-        <button onClick={connectWallet}>
-          Connect Wallet
-        </button>
+        <h1 style={{textAlign: 'center'}}>ETHEREUM BLOGCHAIN</h1>
+        <p style={{textAlign: 'center'}}>Please connect the Metamask wallet to continue:</p>
+        <div style={{ display: 'flex', justifyContent: 'center', marginTop:'20px' }}>
+          <button onClick={connectWallet}>Connect Wallet</button>
+        </div>
       </div>
       ) : correctNetwork ? (
         <div className='app'>
           {
             (
               <div className='nova-objava'>
-                <h1 style={{textAlign: 'center'}}>ETHEREUM BLOG</h1>
+                <h1 style={{textAlign: 'center'}}>ETHEREUM BLOGCHAIN</h1>
                 <textarea 
                   type="text"
                   placeholder="Vnesi novo objavo"
@@ -128,14 +131,14 @@ function App() {
           {
             dataList.map(objava => 
             <ObjavaComponent avtor={objava['avtor']} 
-                    vsebina={objava[2]} 
+                    vsebina={objava[1]} 
                     timestamp={new Date(objava['timestamp'] * 1000).toLocaleString()} />)
           }
         </div>
       ) : (
         <div>
-          <h1 style={{textAlign: 'center'}}>ETHEREUM BLOG</h1>
-          <p>Please connect your Rinkeby Testnet Wallet and reload the page.</p>
+          <h1 style={{textAlign: 'center'}}>ETHEREUM BLOGCHAIN</h1>
+          <p>Please connect your Goerli Testnet Wallet and reload the page.</p>
         </div>
     )}
     </div>

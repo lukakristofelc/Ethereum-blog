@@ -1,1 +1,1 @@
-export const ObjavaContractAddress = "0x048dB63A4f537B9f8314f7BD4ABCE72Cb1E05444";
+export const ObjavaContractAddress = "0x9fE46736679d2D9a65F0992F2272dE9f3c7fa6e0";
