@@ -1,99 +1,80 @@
 import './App.css';
-import {useState, useEffect} from "react"
+import { useState, useEffect } from "react"
 import { ObjavaComponent } from './Components/ObjavaComponent/ObjavaComponent'
-import { ObjavaContractAddress } from './config';
-import {ethers} from 'ethers';
+import { ethers } from 'ethers';
 import Blog from './utils/Blog.json'
 
 function App() {
   const [currentAccount, setCurrentAccount] = useState('');
-  const [correctNetwork, setCorrectNetwork] = useState('');
   const [dataList, setDataList] = useState([]);
   const [input, setInput] = useState('');
-
-  async function updatePosts() {
-    try {
-      const {ethereum} = window
-
-      if (ethereum) {
-        const provider = new ethers.providers.Web3Provider(ethereum);
-        const signer = provider.getSigner();
-        const ObjavaContract = new ethers.Contract(
-          ObjavaContractAddress,
-          Blog.abi,
-          signer
-        )
-
-        let novaObjava = await ObjavaContract.dodajObjavo(input);
-
-        setInput("");
-
-        let objaveList = await ObjavaContract.vseObjave();
-    
-        setDataList(objaveList);
-      } else {
-        console.log("Ethereum object doesn't exist");
-      }
-    } catch(error) {
-      console.log(error);
-    }
-  }
+  const blogContractAddress = "0x5FbDB2315678afecb367f032d93F642f64180aa3";
 
   async function connectWallet() {
     try{
-      const {ethereum} = window
+      const {ethereum} = window;
 
-      if(!ethereum) {
-        console.log('Metamask not detected');
+      if (!ethereum) {
+        console.log('Ethereum object does not exist');
         return;
       }
-
-      let chainId = await ethereum.request({method: 'eth_chainId'});
-      console.log(chainId);
-      /*if(chainId != '0x5')
-      {
-        alert("You are not on Goerli Testnet!");
-        setCorrectNetwork(false);
-        return;
-      }
-      else
-      {*/
-        setCorrectNetwork(true);
-      //}
 
       const accounts = await ethereum.request({method: 'eth_requestAccounts'});
-      console.log(accounts);
       setCurrentAccount(accounts[0]);
+
     } catch (e) {
       console.log(e);
     }
   }
 
-  const orderPosts = (accounts) => {
-    return accounts.slice().sort((a, b) => b['timestamp'] - a['timestamp']);
+  function connectContract() {
+    const {ethereum} = window;
+
+    if (!ethereum) {
+      console.log('Ethereum object does not exist');
+      return;
+    }
+
+    const provider = new ethers.providers.Web3Provider(ethereum);
+    const signer = provider.getSigner();
+    const BlogContract = new ethers.Contract(
+      blogContractAddress,
+      Blog.abi,
+      signer
+    )
+
+    return BlogContract;
   }
 
   async function initialize() {    
     try {
-      const {ethereum} = window
+      const BlogContract = connectContract();
 
-      if(ethereum) {
-        const provider = new ethers.providers.Web3Provider(ethereum);
-        const signer = provider.getSigner();
-        const ObjavaContract = new ethers.Contract(
-          ObjavaContractAddress,
-          Blog.abi,
-          signer
-        )
+      let objaveList = await BlogContract.vseObjave();
+      setDataList(orderPosts(objaveList));
 
-        let objaveList = await ObjavaContract.vseObjave();
-        setDataList(orderPosts(objaveList));
-      } else {
-        console.log("Ethereum object doesn't exist");
-      }
+    } catch(e) {
+      console.log(e);
+    }
+  }
+
+  async function updatePosts() {
+    try {
+      const BlogContract = connectContract();
+
+      let novaObjava = await BlogContract.dodajObjavo(input);
+      setInput("");
+
+      let objaveList = await BlogContract.vseObjave();
+      setDataList(objaveList);
+
     } catch(error) {
       console.log(error);
     }
+  }  
+
+  const orderPosts = (accounts) => {
+    return accounts.slice().sort((a, b) => b['timestamp'] - a['timestamp']);
   }
 
   useEffect(() => {
@@ -110,7 +91,7 @@ function App() {
           <button onClick={connectWallet}>Connect Wallet</button>
         </div>
       </div>
-      ) : correctNetwork ? (
+      ) : (
         <div className='app'>
           {
             (
@@ -135,12 +116,7 @@ function App() {
                     timestamp={new Date(objava['timestamp'] * 1000).toLocaleString()} />)
           }
         </div>
-      ) : (
-        <div>
-          <h1 style={{textAlign: 'center'}}>ETHEREUM BLOGCHAIN</h1>
-          <p>Please connect your Goerli Testnet Wallet and reload the page.</p>
-        </div>
-    )}
+      )}
     </div>
   );
 }
