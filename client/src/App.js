@@ -62,11 +62,11 @@ function App() {
     try {
       const BlogContract = connectContract();
 
-      let novaObjava = await BlogContract.dodajObjavo(input);
+      await BlogContract.dodajObjavo(input);
       setInput("");
 
       let objaveList = await BlogContract.vseObjave();
-      setDataList(objaveList);
+      setDataList(orderPosts(objaveList));
 
     } catch(error) {
       console.log(error);
