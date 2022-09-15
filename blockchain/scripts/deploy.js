@@ -1,4 +1,6 @@
-const main = async() => {
+
+
+const deploy = async() => {
   const contractFactory = await ethers.getContractFactory("Blog");
   const contract = await contractFactory.deploy();
   await contract.deployed();
@@ -6,9 +8,9 @@ const main = async() => {
   console.log("Contract deployed to: ", contract.address);
 }
 
-const runMain = async() => {
+const run = async() => {
   try {
-    await main();
+    await deploy();
     process.exit(0);
   } catch (error) {
     console.log(error);
@@ -16,4 +18,6 @@ const runMain = async() => {
   }
 }
 
-runMain();
+run();
+
+
