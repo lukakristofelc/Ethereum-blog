@@ -46,7 +46,7 @@ function App() {
     return BlogContract;
   }
 
-  async function initialize() {    
+  async function getPosts() {    
     try {
       const BlogContract = connectContract();
 
@@ -65,8 +65,7 @@ function App() {
       await BlogContract.dodajObjavo(input);
       setInput("");
 
-      let objaveList = await BlogContract.vseObjave();
-      setDataList(orderPosts(objaveList));
+      getPosts();
 
     } catch(error) {
       console.log(error);
@@ -78,7 +77,7 @@ function App() {
   }
 
   useEffect(() => {
-    initialize();
+    getPosts();
   });
 
   return (
