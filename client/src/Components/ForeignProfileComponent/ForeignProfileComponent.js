@@ -55,7 +55,8 @@ export class ForeignProfile extends React.Component {
                 <button onClick={this.props.setFeedView}>BACK</button> <br/>
                 {
                     this.state.posts.map(objava =>
-                            <ObjavaComponent    id={objava['id']}
+                            <ObjavaComponent    key={objava['id']}
+                                                id={objava['id']}
                                                 author={objava['author']} 
                                                 content={objava['content']} 
                                                 timestamp={new Date(objava['timestamp'] * 1000).toLocaleString()}
