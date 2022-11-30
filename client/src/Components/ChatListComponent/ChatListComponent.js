@@ -33,14 +33,26 @@ export class ChatListComponent extends React.Component {
     }
 
     render() {
+        console.log(this.state.friends)
         this.getFriends();
-        console.log(this.state.currentChatAddress);
-        return(
+        if (this.state.friends.length == 0)
+        {
+            return(
+                <div>
+                    <h2>You need friends in order to message them.</h2>
+                </div>
+            );
+        }
+        else
+        {
+            return(
             <div>
                 <h2>SELECT A FRIEND YOU WOULD LIKE TO MESSAGE:</h2>
                 {this.state.friends.map(friend => <button key={friend['pubkey']} onClick={() => this.setCurrentChatAddress(friend['pubkey'])}>{friend['name']}</button>)}
                 {this.state.currentChatAddress != "" ? <ChatComponent contract={this.contract} currentChatAddress={this.state.currentChatAddress} /> : <div />}
             </div>
-        )
+            )
+        }
+        
     }
 }

@@ -82,8 +82,7 @@ function App() {
   {
     return (<div>
               <h1 style={{textAlign: 'center'}}>ETHEREUM BLOGCHAIN</h1>
-              <p style={{textAlign: 'center'}}>Please insert a username and connect the Metamask wallet to continue:</p>
-              <textarea></textarea>
+              <p style={{textAlign: 'center'}}>Please connect the Metamask wallet to continue:</p>
               <div style={{ display: 'flex', justifyContent: 'center', marginTop:'20px' }}>
                 <button onClick={connectWallet}>Connect Wallet</button>
               </div>

@@ -15,7 +15,6 @@ export class ForeignProfile extends React.Component {
 
         this.getPosts = this.getPosts.bind(this);
         this.hasCorrectAddress = this.hasCorrectAddress.bind(this);
-        this.sendMessage = this.sendMessage.bind(this);
         this.addFriend = this.addFriend.bind(this);
 
         this.state = {
@@ -37,14 +36,6 @@ export class ForeignProfile extends React.Component {
         return post['pubkey'] === this.foreignAddress;
     }
 
-    async sendMessage() {
-        try {
-            this.props.setMessageView();
-        } catch (e) {
-            console.log(e);
-        }
-    }
-
     async addFriend() {
         try {
             await this.contract.addFriend(this.foreignAddress, this.username);
@@ -59,7 +50,6 @@ export class ForeignProfile extends React.Component {
             <div>
                 <h2>Address: {this.foreignAddress}</h2>
                 <h2>Username: {this.username}</h2> <br/>
-                <button onClick={this.sendMessage}>SEND MESSAGE</button>
                 <button onClick={(this.addFriend)}>ADD FRIEND</button>
                 <button onClick={this.props.setFeedView}>BACK</button> <br/>
                 {

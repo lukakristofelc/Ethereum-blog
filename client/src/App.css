@@ -57,9 +57,10 @@ button {
 }
 
 button:hover {
-  background-color: black; /* Green */
-  color: white;
+  background-color: white; /* Green */
+  color: black;
   cursor: pointer;
+  transition: 0.3s;
 }
 
 h1 {
