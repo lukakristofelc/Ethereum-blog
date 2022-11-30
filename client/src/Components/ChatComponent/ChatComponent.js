@@ -7,16 +7,14 @@ export class ChatComponent extends React.Component {
     
     constructor(props) {
         super(props);
-        this.currrentUser = props.currrentUser;
         this.contract = props.contract;
-        this.messages = props.messages;
-        this.currentChatAddress= props.currentChatAddress;
         this.sendMessage = this.sendMessage.bind(this);
         this.getChat = this.getChat.bind(this);
 
         this.state = {
             chat: [],
-            input: ""
+            input: "",
+            currentChatAddress: props.currentChatAddress
         }
     }
 
@@ -26,7 +24,7 @@ export class ChatComponent extends React.Component {
             return;
         }
         try {
-            await this.contract.sendMessage(this.currentChatAddress, this.state.input);
+            await this.contract.sendMessage(this.state.currentChatAddress, this.state.input);
             this.setState({input:''});  
         } catch (error) {
             console.log(error);
@@ -43,8 +41,8 @@ export class ChatComponent extends React.Component {
     }
 
     render() {
-        if (this.currentChatAddress != undefined) {
-            this.getChat(this.currentChatAddress);
+        if (this.state.currentChatAddress != undefined) {
+            this.getChat(this.state.currentChatAddress);
         }
         return(
             <div>
