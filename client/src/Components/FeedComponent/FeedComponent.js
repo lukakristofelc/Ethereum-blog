@@ -15,10 +15,12 @@ export class Feed extends React.Component {
         this.setFeedView = this.setFeedView.bind(this);
         this.setProfileView = this.setProfileView.bind(this);
         this.setForeignAddress = this.setForeignAddress.bind(this);
-        
+        this.setUsername = this.setUsername.bind(this);
+
         this.state = {
             posts: [],
             view: 'F',
+            username: '',
             foreignAddress: '',
             input:''
         }
@@ -36,7 +38,7 @@ export class Feed extends React.Component {
 
     async addPost() {
         try {
-          await this.contract.dodajObjavo(this.state.input);
+          await this.contract.addPost(this.state.input);
           this.setState({input:''});   
 
         } catch(error) {
@@ -56,32 +58,37 @@ export class Feed extends React.Component {
         this.setState({foreignAddress: foreignAddress});
     }
 
+    setUsername(username) {
+        this.setState({username: username});
+    }
+
     render() {
         if (this.state.view === 'F')
         {
             this.getPosts();
             return(  
                 <div>
-                    <h1>ETHEREUM BLOGCHAIN</h1>
                     <textarea 
                         type="text"
-                        placeholder="Vnesi novo objavo"
+                        placeholder="Insert new post"
                         onChange={e => this.setState({input: e.target.value})}
                         value={this.state.input}
                         rows="8" cols="50"
                     />
                     <br/>
-                    <button onClick={this.addPost}>OBJAVI</button> <br/>
+                    <button onClick={this.addPost}>POST</button> <br/>
                     {
                     this.state.posts.map(objava =>
                         <ObjavaComponent    key={objava['id']}
                                             id={objava['id']}
-                                            author={objava['author']} 
+                                            author={objava['author']}
+                                            authorKey={objava['pubkey']}
                                             content={objava['content']} 
                                             timestamp={new Date(objava['timestamp'] * 1000).toLocaleString()}
                                             setProfileView={this.setProfileView}
                                             setFeedView={this.setFeedView}
                                             setForeignAddress={this.setForeignAddress}
+                                            setUsername={this.setUsername}
                         />)
                     }
                 </div>)
@@ -91,9 +98,11 @@ export class Feed extends React.Component {
             return(  
                 <div>
                     <ForeignProfile currrentUser={this.currrentUser}
+                                    username={this.state.username}
                                     foreignAddress={this.state.foreignAddress} 
                                     contract={this.contract} 
                                     setFeedView={this.setFeedView}
+                                    setMessageView={this.props.setMessageView}
                     />
                 </div>)
         }

@@ -9,12 +9,14 @@ export class ForeignProfile extends React.Component {
     constructor(props) {
         super(props);
         this.currrentUser = props.currrentUser;
+        this.username = props.username;
         this.foreignAddress = props.foreignAddress;
         this.contract = props.contract;
 
         this.getPosts = this.getPosts.bind(this);
         this.hasCorrectAddress = this.hasCorrectAddress.bind(this);
         this.sendMessage = this.sendMessage.bind(this);
+        this.addFriend = this.addFriend.bind(this);
 
         this.state = {
             posts: [],
@@ -32,15 +34,20 @@ export class ForeignProfile extends React.Component {
     }
 
     hasCorrectAddress(post) {        
-        return post[1] === this.foreignAddress;
+        return post['pubkey'] === this.foreignAddress;
     }
 
     async sendMessage() {
         try {
-            const messageContent = prompt('enter message');
-            await this.contract.sendMessage(this.currrentUser, this.foreignAddress, messageContent);
-            const chats = await this.contract.getChat(this.currrentUser, this.foreignAddress);
-            console.log(chats);
+            this.props.setMessageView();
+        } catch (e) {
+            console.log(e);
+        }
+    }
+
+    async addFriend() {
+        try {
+            await this.contract.addFriend(this.foreignAddress, this.username);
         } catch (e) {
             console.log(e);
         }
@@ -50,8 +57,10 @@ export class ForeignProfile extends React.Component {
         this.getPosts();
         return (
             <div>
-                <h2>{this.foreignAddress}</h2> <br/>
+                <h2>Address: {this.foreignAddress}</h2>
+                <h2>Username: {this.username}</h2> <br/>
                 <button onClick={this.sendMessage}>SEND MESSAGE</button>
+                <button onClick={(this.addFriend)}>ADD FRIEND</button>
                 <button onClick={this.props.setFeedView}>BACK</button> <br/>
                 {
                     this.state.posts.map(objava =>

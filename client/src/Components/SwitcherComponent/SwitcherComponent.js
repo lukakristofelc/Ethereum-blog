@@ -3,6 +3,7 @@ import './SwitcherComponent.css';
 import Blog from '../../utils/Blog.json'
 import { ethers } from 'ethers';
 import { Feed } from '../FeedComponent/FeedComponent';
+import { ChatListComponent } from '../ChatListComponent/ChatListComponent';
 
 export class SwitcherComponent extends React.Component {
     
@@ -41,27 +42,29 @@ export class SwitcherComponent extends React.Component {
         if (this.state.view == 'F') {
             return (
                 <div>
+                    <h1>ETHEREUM BLOGCHAIN</h1>
                     <button onClick={this.setFeedView}>FEED</button>
                     <button onClick={this.setMessageView}>MESSAGES</button>
                     <button onClick={this.setProfileView}>MY PROFILE</button>
-                    <Feed currrentUser={this.currentUser} contract={this.contract} />
+                    <Feed currrentUser={this.currentUser} contract={this.contract} setMessageView={this.setMessageView}/>
                 </div>
             )
         }
         else if (this.state.view == 'M') {
             return (
                 <div>
+                    <h1>ETHEREUM BLOGCHAIN</h1>
                     <button onClick={this.setFeedView}>FEED</button>
                     <button onClick={this.setMessageView}>MESSAGES</button>
                     <button onClick={this.setProfileView}>MY PROFILE</button>
-                    <h1>MESSAGES</h1>
-                    {/*<Messages />*/}
+                    <ChatListComponent currrentUser={this.currentUser} contract={this.contract}/>
                 </div>
             )
         }
         else {
             return (
                 <div>
+                    <h1>ETHEREUM BLOGCHAIN</h1>
                     <button onClick={this.setFeedView}>FEED</button>
                     <button onClick={this.setMessageView}>MESSAGES</button>
                     <button onClick={this.setProfileView}>MY PROFILE</button>
@@ -75,7 +78,7 @@ export class SwitcherComponent extends React.Component {
 
 const connectContract = () => {
     const {ethereum} = window;
-    const blogContractAddress = "0xCf7Ed3AccA5a467e9e704C703E8D87F634fB0Fc9";
+    const blogContractAddress = "0x5FbDB2315678afecb367f032d93F642f64180aa3";
   
     if (!ethereum) {
       console.log('Ethereum object does not exist');

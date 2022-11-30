@@ -3,7 +3,7 @@ import './ObjavaComponent.css';
 import Blog from '../../utils/Blog.json'
 import { ethers } from 'ethers';
 import { ForeignProfile } from '../ForeignProfileComponent/ForeignProfileComponent';
-const blogContractAddress = "0xCf7Ed3AccA5a467e9e704C703E8D87F634fB0Fc9";
+const blogContractAddress = "0x5FbDB2315678afecb367f032d93F642f64180aa3";
 
 const connectContract = () => {
   const {ethereum} = window;
@@ -30,6 +30,7 @@ export class ObjavaComponent extends React.Component {
     super(props);
     this.id = this.props.id;
     this.author = this.props.author;
+    this.authorKey = this.props.authorKey;
     this.content = this.props.content;
     this.timestamp = this.props.timestamp;
     
@@ -61,7 +62,8 @@ export class ObjavaComponent extends React.Component {
 
   handleClick() {
     this.props.setProfileView();
-    this.props.setForeignAddress(this.author);
+    this.props.setForeignAddress(this.authorKey);
+    this.props.setUsername(this.author);
   }
 
   render() {

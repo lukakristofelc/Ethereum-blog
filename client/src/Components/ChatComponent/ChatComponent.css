@@ -1,0 +1,56 @@
+h2 {
+    font-family: 'Courier New', Courier, monospace;
+    color: greenyellow;
+}
+
+p {
+    text-align: left;
+    margin: 10px;
+    font-size: large;
+}
+
+.message-composer {
+    display: flex;
+    flex-shrink: 0;
+    flex-direction: column;
+    justify-content: flex-end;
+    position: relative;
+    width: 70%;
+    overflow-wrap: break-word;
+    margin: auto;
+    margin-top: 20px;
+    border: 3px;
+    border-style: solid;
+    border-color: greenyellow;
+    background-color: black;
+    border-radius: 50px;
+    overflow: auto; 
+    height: 800px;
+}
+
+.messages {
+    margin-top: 20px;
+    margin-left: 15px;
+    margin-bottom: 100px;
+    overflow: auto;
+}
+
+#sender_name {
+    color: greenyellow;
+}
+
+#message_input {
+    height: 80px;
+    width: 83%;
+    position: absolute;
+    bottom: 0;
+    margin: 10px;
+}
+
+#message_send {
+    height: 80px;
+    width: 15%;
+    position: absolute;
+    right: 0;
+    margin: 10px
+}
