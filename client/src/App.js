@@ -10,6 +10,7 @@ function App() {
   const [isMod, setIsMod] = useState();
   const [showTextarea, setShowTextArea] = useState();
   const [username, setUsername] = useState('');
+
   const connectContract = () => {
     const {ethereum} = window;
   
@@ -103,7 +104,7 @@ function App() {
   else
   {
     return (<div>
-      <SwitcherComponent currentUser={currentAccount} isMod={isMod}/>
+      <SwitcherComponent currentUser={currentAccount} isMod={isMod} contract={contract}/>
     </div>)
   }
 }

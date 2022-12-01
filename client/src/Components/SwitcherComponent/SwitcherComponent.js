@@ -11,8 +11,7 @@ export class SwitcherComponent extends React.Component {
         super(props);
         this.currentUser = props.currentUser;
         this.isMod = props.isMod;
-            
-        this.contract = connectContract();
+        this.contract = props.contract;
 
         this.setFeedView = this.setFeedView.bind(this);
         this.setMessageView = this.setMessageView.bind(this);
@@ -75,24 +74,4 @@ export class SwitcherComponent extends React.Component {
             )
         }
     }
-}
-
-const connectContract = () => {
-    const {ethereum} = window;
-    const blogContractAddress = "0x5FbDB2315678afecb367f032d93F642f64180aa3";
-  
-    if (!ethereum) {
-      console.log('Ethereum object does not exist');
-      return;
-    }
-  
-    const provider = new ethers.providers.Web3Provider(ethereum);
-    const signer = provider.getSigner();
-    const BlogContract = new ethers.Contract(
-      blogContractAddress,
-      Blog.abi,
-      signer
-    )
-  
-    return BlogContract;
 }
