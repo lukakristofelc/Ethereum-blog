@@ -22,6 +22,7 @@ contract Blog {
     struct User {
         string name;
         Friend[] friends;
+        Post[] posts;
         bool isMod;
     }
 
@@ -74,12 +75,8 @@ contract Blog {
         return false;
     }
 
-    function getMyFriends() external view returns(Friend[] memory) {
-        return users[msg.sender].friends;
-    }
-
-    function getUser() external view returns(User memory) {
-        return users[msg.sender];
+    function getUser(address userAddress) external view returns(User memory) {
+        return users[userAddress];
     }
 
     // *****
@@ -107,7 +104,9 @@ contract Blog {
     // POSTS
     // *****
     function addPost(string memory vsebina) external {
-        allPosts.push(Post(allPosts.length, users[msg.sender].name, msg.sender, vsebina, block.timestamp));
+        Post memory newPost = Post(allPosts.length, users[msg.sender].name, msg.sender, vsebina, block.timestamp);
+        allPosts.push(newPost);
+        users[msg.sender].posts.push(newPost);
     }
 
     function getPosts() external view returns (Post[] memory) {

@@ -1,16 +1,14 @@
 import React, { Component } from 'react';
-import './ForeignProfileComponent.css';
+import './MyProfileComponent.css';
 import Blog from '../../utils/Blog.json'
 import { ethers } from 'ethers';
 import { ObjavaComponent } from '../ObjavaComponent/ObjavaComponent';
 
-export class ForeignProfile extends React.Component {
+export class MyProfile extends React.Component {
 
     constructor(props) {
         super(props);
         this.currentUser = props.currentUser;
-        this.username = props.username;
-        this.foreignAddress = props.foreignAddress;
         this.contract = props.contract;
 
         this.getPosts = this.getPosts.bind(this);
@@ -19,16 +17,17 @@ export class ForeignProfile extends React.Component {
 
         this.state = {
             posts: [],
-            messageContent: ''
+            messageContent: '',
+            username: ''
         }
     }
 
     async getPosts() {    
         try {    
-            const user = await this.contract.getUser(this.foreignAddress);
-            this.setState({posts: orderPosts(user['posts'])});
+            const user = await this.contract.getUser(this.currentUser);
+            this.setState({posts: orderPosts(user['posts']), username: user['name']});
         } catch(e) {
-            console.log(e);
+          console.log(e);
         }
     }
 
@@ -48,10 +47,8 @@ export class ForeignProfile extends React.Component {
         this.getPosts();
         return (
             <div>
-                <h2>{this.username}</h2>
-                <h2>{this.foreignAddress}</h2> <br/>
-                <button onClick={(this.addFriend)}>ADD FRIEND</button>
-                <button onClick={this.props.setFeedView}>BACK</button> <br/>
+                <h2>{this.state.username}</h2>
+                <h2>{this.currentUser}</h2> <br/>
                 {
                     this.state.posts.map(objava =>
                             <ObjavaComponent    key={objava['id']}

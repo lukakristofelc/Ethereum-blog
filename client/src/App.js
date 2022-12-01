@@ -6,7 +6,7 @@ import { SwitcherComponent } from './Components/SwitcherComponent/SwitcherCompon
 import { ModeratorAddress, BlogContractAddress } from './config.js'
 
 function App() {
-  const [currentAccount, setCurrentAccount] = useState('');
+  const [currentUser, setCurrentUser] = useState('');
   const [isMod, setIsMod] = useState();
   const [showTextarea, setShowTextArea] = useState();
   const [username, setUsername] = useState('');
@@ -47,7 +47,7 @@ function App() {
 
       await contract.createNewUser(username, accounts[0].toLowerCase() === ModeratorAddress.toLowerCase());
 
-      setCurrentAccount(accounts[0]);
+      setCurrentUser(accounts[0]);
     } catch (error) {
       console.log(error);
     }
@@ -71,14 +71,14 @@ function App() {
       }
       else
       {
-        setCurrentAccount(accounts[0]);
+        setCurrentUser(accounts[0]);
       }
     } catch (e) {
       console.log(e);
     }
   }
 
-  if (currentAccount === '')
+  if (currentUser === '')
   {
     return (<div>
               <h1 style={{textAlign: 'center'}}>ETHEREUM BLOGCHAIN</h1>
@@ -104,7 +104,7 @@ function App() {
   else
   {
     return (<div>
-      <SwitcherComponent currentUser={currentAccount} isMod={isMod} contract={contract}/>
+      <SwitcherComponent currentUser={currentUser} isMod={isMod} contract={contract}/>
     </div>)
   }
 }

@@ -7,11 +7,12 @@ export class ObjavaComponent extends React.Component {
     super(props);
     this.id = props.id;
     this.author = props.author;
-    this.authorKey = props.authorKey;
+    this.authorKey = props.authorKey.toLowerCase();
     this.content = props.content;
     this.timestamp = props.timestamp;
     this.isMod = props.isMod;
     this.contract = props.contract;
+    this.currentUser = props.currentUser.toLowerCase();
     
     this.deletePost = this.deletePost.bind(this);
     this.handleClick = this.handleClick.bind(this);
@@ -40,7 +41,7 @@ export class ObjavaComponent extends React.Component {
           <button className='author' onClick={this.handleClick}>{this.author}</button>
           <div className='vsebina'>{this.content}</div>
           <div className='timestamp'>{this.timestamp}</div>
-          {this.isMod ? <button onClick={this.deletePost}>DELETE</button> : <div/>}
+          {this.isMod || this.authorKey === this.currentUser ? <button onClick={this.deletePost}>DELETE</button> : <div/>}
         </div>
       </div>
     )

@@ -4,6 +4,7 @@ import Blog from '../../utils/Blog.json'
 import { ethers } from 'ethers';
 import { Feed } from '../FeedComponent/FeedComponent';
 import { ChatListComponent } from '../ChatListComponent/ChatListComponent';
+import { MyProfile } from '../MyProfileComponent/MyProfileComponent';
 
 export class SwitcherComponent extends React.Component {
     
@@ -46,7 +47,7 @@ export class SwitcherComponent extends React.Component {
                     <button onClick={this.setFeedView}>FEED</button>
                     <button onClick={this.setMessageView}>MESSAGES</button>
                     <button onClick={this.setProfileView}>MY PROFILE</button>
-                    <Feed currrentUser={this.currentUser} contract={this.contract} setMessageView={this.setMessageView} isMod={this.isMod}/>
+                    <Feed currentUser={this.currentUser} contract={this.contract} setMessageView={this.setMessageView} isMod={this.isMod}/>
                 </div>
             )
         }
@@ -57,19 +58,20 @@ export class SwitcherComponent extends React.Component {
                     <button onClick={this.setFeedView}>FEED</button>
                     <button onClick={this.setMessageView}>MESSAGES</button>
                     <button onClick={this.setProfileView}>MY PROFILE</button>
-                    <ChatListComponent currrentUser={this.currentUser} contract={this.contract}/>
+                    <ChatListComponent currentUser={this.currentUser} contract={this.contract}/>
                 </div>
             )
         }
         else {
+            console.log(this.currentUser);
             return (
                 <div>
                     <h1>ETHEREUM BLOGCHAIN</h1>
                     <button onClick={this.setFeedView}>FEED</button>
                     <button onClick={this.setMessageView}>MESSAGES</button>
                     <button onClick={this.setProfileView}>MY PROFILE</button>
-                    <h1>PROFILE</h1>
-                    {/*<Profile />*/}
+                    <MyProfile  currentUser={this.currentUser}
+                                contract={this.contract} />
                 </div>
             )
         }

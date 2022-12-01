@@ -8,7 +8,7 @@ export class ChatListComponent extends React.Component {
     
     constructor(props) {
         super(props);
-        this.currrentUser = props.currrentUser;
+        this.currentUser = props.currentUser;
         this.contract = props.contract;
         this.getFriends = this.getFriends.bind(this);
         this.setCurrentChatAddress = this.setCurrentChatAddress.bind(this);
@@ -21,8 +21,8 @@ export class ChatListComponent extends React.Component {
 
     async getFriends() {
         try {
-            const friendList = await this.contract.getMyFriends();
-            this.setState({friends: friendList});
+            const user = await this.contract.getUser(this.currentUser);
+            this.setState({friends: user['friends']});
         } catch (error) {
             console.log(error);            
         }

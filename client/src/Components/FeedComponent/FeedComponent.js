@@ -7,7 +7,7 @@ export class Feed extends React.Component {
 
     constructor(props) {
         super(props);
-        this.currrentUser = props.currrentUser;
+        this.currentUser = props.currentUser;
         this.contract = props.contract;
         this.isMod = props.isMod;
 
@@ -39,13 +39,15 @@ export class Feed extends React.Component {
 
     async addPost() {
         try {
-          await this.contract.addPost(this.state.input);
-          const user = await this.contract.getUser();
-          console.log(user);
-          this.setState({input:''});   
-
+            if (this.state.input == "")
+            {
+                alert("Your post cannot be empty.");
+                return;
+            }
+            await this.contract.addPost(this.state.input);
+            this.setState({input:''});   
         } catch(error) {
-          console.log(error);
+            console.log(error);
         }
     }  
 
@@ -94,6 +96,7 @@ export class Feed extends React.Component {
                                             setUsername={this.setUsername}
                                             isMod={this.isMod}
                                             contract={this.contract}
+                                            currentUser={this.currentUser}
                         />)
                     }
                 </div>)
@@ -102,7 +105,7 @@ export class Feed extends React.Component {
         {
             return(  
                 <div>
-                    <ForeignProfile currrentUser={this.currrentUser}
+                    <ForeignProfile currentUser={this.currentUser}
                                     username={this.state.username}
                                     foreignAddress={this.state.foreignAddress} 
                                     contract={this.contract} 
