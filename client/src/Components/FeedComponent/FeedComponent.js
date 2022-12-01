@@ -9,6 +9,7 @@ export class Feed extends React.Component {
         super(props);
         this.currrentUser = props.currrentUser;
         this.contract = props.contract;
+        this.isMod = props.isMod;
 
         this.getPosts = this.getPosts.bind(this);
         this.addPost = this.addPost.bind(this);
@@ -39,6 +40,8 @@ export class Feed extends React.Component {
     async addPost() {
         try {
           await this.contract.addPost(this.state.input);
+          const user = await this.contract.getUser();
+          console.log(user);
           this.setState({input:''});   
 
         } catch(error) {
@@ -89,6 +92,8 @@ export class Feed extends React.Component {
                                             setFeedView={this.setFeedView}
                                             setForeignAddress={this.setForeignAddress}
                                             setUsername={this.setUsername}
+                                            isMod={this.isMod}
+                                            contract={this.contract}
                         />)
                     }
                 </div>)

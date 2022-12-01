@@ -10,6 +10,7 @@ export class SwitcherComponent extends React.Component {
     constructor(props) {
         super(props);
         this.currentUser = props.currentUser;
+        this.isMod = props.isMod;
             
         this.contract = connectContract();
 
@@ -46,7 +47,7 @@ export class SwitcherComponent extends React.Component {
                     <button onClick={this.setFeedView}>FEED</button>
                     <button onClick={this.setMessageView}>MESSAGES</button>
                     <button onClick={this.setProfileView}>MY PROFILE</button>
-                    <Feed currrentUser={this.currentUser} contract={this.contract} setMessageView={this.setMessageView}/>
+                    <Feed currrentUser={this.currentUser} contract={this.contract} setMessageView={this.setMessageView} isMod={this.isMod}/>
                 </div>
             )
         }

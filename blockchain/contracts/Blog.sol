@@ -22,6 +22,7 @@ contract Blog {
     struct User {
         string name;
         Friend[] friends;
+        bool isMod;
     }
 
     struct Friend {
@@ -41,18 +42,14 @@ contract Blog {
         return bytes(users[pubkey].name).length > 0;
     }
 
-    function createNewUser(string calldata name) external {
+    function createNewUser(string calldata name, bool isMod) external {
         require(doesUserExist(msg.sender)==false, "User already exists!");
         require(bytes(name).length>0, "Username cannot be empty!"); 
         users[msg.sender].name = name;
+        users[msg.sender].isMod = isMod;
     }
 
     function addFriend(address friend_key, string calldata name) external {
-        require(doesUserExist(msg.sender), "Create an account first!");
-        require(doesUserExist(friend_key), "User is not registered!");
-        require(msg.sender != friend_key, "Users cannot add themselves as friends!");
-        require(checkIfFriends(msg.sender, friend_key) == false, "These users are already friends!");
-
         Friend memory newFriend = Friend(friend_key, name);
         users[msg.sender].friends.push(newFriend);
 
@@ -79,6 +76,10 @@ contract Blog {
 
     function getMyFriends() external view returns(Friend[] memory) {
         return users[msg.sender].friends;
+    }
+
+    function getUser() external view returns(User memory) {
+        return users[msg.sender];
     }
 
     // *****
@@ -111,6 +112,13 @@ contract Blog {
 
     function getPosts() external view returns (Post[] memory) {
         return allPosts;
+    }
+
+    function deletePost(uint id) external {
+        require(users[msg.sender].isMod == true);
+        require(id < allPosts.length);
+        allPosts[id] = allPosts[allPosts.length-1];
+        allPosts.pop();
     }
 }
 
