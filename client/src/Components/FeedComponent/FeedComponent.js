@@ -110,7 +110,6 @@ export class Feed extends React.Component {
                                     foreignAddress={this.state.foreignAddress} 
                                     contract={this.contract} 
                                     setFeedView={this.setFeedView}
-                                    setMessageView={this.props.setMessageView}
                     />
                 </div>)
         }

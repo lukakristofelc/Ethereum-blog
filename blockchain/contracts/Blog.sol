@@ -23,10 +23,16 @@ contract Blog {
         string name;
         Friend[] friends;
         Post[] posts;
+        FriendRequest[] friendRequests;
         bool isMod;
     }
 
     struct Friend {
+        address pubkey;
+        string name;
+    }
+
+    struct FriendRequest {
         address pubkey;
         string name;
     }
@@ -58,7 +64,34 @@ contract Blog {
         users[friend_key].friends.push(newFriend);
     }
 
-    function checkIfFriends(address user1, address user2) internal view returns(bool) {
+    function handleFriendRequest(address friend_request_key, bool accept) external {
+        for (uint i = 0; i < users[msg.sender].friendRequests.length; i++) {
+            if (users[msg.sender].friendRequests[i].pubkey == friend_request_key && accept) {
+                Friend memory newFriend = Friend(friend_request_key, users[friend_request_key].name);
+                users[msg.sender].friends.push(newFriend);
+
+                newFriend = Friend(msg.sender, users[msg.sender].name);
+                users[friend_request_key].friends.push(newFriend);
+
+                users[msg.sender].friendRequests[i] = users[msg.sender].friendRequests[users[msg.sender].friendRequests.length - 1];
+                users[msg.sender].friendRequests.pop();
+            } else if (users[msg.sender].friendRequests[i].pubkey == friend_request_key && !accept) {
+                users[msg.sender].friendRequests[i] = users[msg.sender].friendRequests[users[msg.sender].friendRequests.length - 1];
+                users[msg.sender].friendRequests.pop();
+            }
+        }
+    }
+
+    function sendFriendRequest(address friend_key) external {
+        FriendRequest memory friendRequest = FriendRequest(msg.sender, users[msg.sender].name);
+        users[friend_key].friendRequests.push(friendRequest);
+    }
+
+    function getFriendRequests() external view returns (FriendRequest[] memory){
+        return users[msg.sender].friendRequests;
+    }
+
+    /*function checkIfFriends(address user1, address user2) internal view returns(bool) {
         if (users[user1].friends.length > users[user2].friends.length) {  
             for (uint i = 0; i < users[user2].friends.length; i++) {
                 if (users[user2].friends[i].pubkey == user1) {
@@ -73,7 +106,7 @@ contract Blog {
             }
         }
         return false;
-    }
+    }*/
 
     function getUser(address userAddress) external view returns(User memory) {
         return users[userAddress];

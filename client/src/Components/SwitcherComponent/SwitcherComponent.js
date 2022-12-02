@@ -22,7 +22,7 @@ export class SwitcherComponent extends React.Component {
             view:'F',
             profileData: {
                 address:'',
-                posts:[]
+                posts:[],
             }
         }
     }
@@ -63,7 +63,6 @@ export class SwitcherComponent extends React.Component {
             )
         }
         else {
-            console.log(this.currentUser);
             return (
                 <div>
                     <h1>ETHEREUM BLOGCHAIN</h1>
