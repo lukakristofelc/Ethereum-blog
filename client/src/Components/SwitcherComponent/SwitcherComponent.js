@@ -42,10 +42,14 @@ export class SwitcherComponent extends React.Component {
     render() {
         return (
             <div>
-                <h1>ETHEREUM BLOGCHAIN</h1>
-                <button onClick={this.setFeedView}>FEED</button>
-                <button onClick={this.setMessageView}>MESSAGES</button>
-                <button onClick={this.setMyProfileView}>MY PROFILE</button>
+                <div className='header'>
+                    <h1>ETHEREUM BLOGCHAIN</h1>
+                    <div className="buttons">
+                        <button onClick={this.setFeedView}>FEED</button>
+                        <button onClick={this.setMessageView}>MESSAGES</button>
+                        <button onClick={this.setMyProfileView}>MY PROFILE</button>
+                    </div>
+                </div>
                 {   this.state.view === 'F' ? <Feed currentUser={this.currentUser} contract={this.contract} setMessageView={this.setMessageView} setMyProfileView={this.setMyProfileView} isMod={this.isMod}/> :
                     this.state.view === 'M' ? <ChatListComponent currentUser={this.currentUser} contract={this.contract}/> :
                     this.state.view === 'P' ? <MyProfile  currentUser={this.currentUser} contract={this.contract} /> : <div/>

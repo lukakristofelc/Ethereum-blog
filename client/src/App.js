@@ -81,7 +81,9 @@ function App() {
   if (currentUser === '')
   {
     return (<div>
-              <h1 style={{textAlign: 'center'}}>ETHEREUM BLOGCHAIN</h1>
+              <div className='header'>
+                <h1>ETHEREUM BLOGCHAIN</h1>
+              </div>
               <div>
                 { showTextarea ? <div className='sign-up-panel'>
                                     <p style={{textAlign: 'center'}}>Please pick a username:</p> <br />

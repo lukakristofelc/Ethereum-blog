@@ -11,30 +11,27 @@ p {
 
 .message-composer {
     display: flex;
-    flex-shrink: 0;
     flex-direction: column;
     justify-content: flex-end;
     position: relative;
-    width: 70%;
     overflow-wrap: break-word;
-    margin: auto;
-    margin-top: 20px;
     margin-bottom: 40px;
-    border: 3px;
+    margin-left: 40px;
+    margin-right: 40px;
+    border: 4px;
     border-style: solid;
     border-color: greenyellow;
-    background-color: black;
-    border-radius: 50px;
+    background-color: #212121;
     overflow: auto; 
     height: auto;
     max-height: 800px;
 }
 
 .messages {
-    margin-top: 20px;
     margin-left: 15px;
-    margin-bottom: 100px;
+    margin-bottom: 120px;
     overflow: auto;
+    word-break: break-all;
 }
 
 #sender_name {
@@ -46,7 +43,7 @@ p {
     width: 83%;
     position: absolute;
     bottom: 0;
-    margin: 10px;
+    margin: 20px;
 }
 
 #message_send {
@@ -54,5 +51,18 @@ p {
     width: 13%;
     position: absolute;
     right: 0;
-    margin: 10px
+    margin: 20px;
+}
+
+.composer {
+    display: flex;
+    flex-direction: column;
+    justify-content: right;
+    width: 60%;
+}
+
+.close-button {
+    display:flex;
+    justify-content: right;
+    margin-right: 20px;
 }

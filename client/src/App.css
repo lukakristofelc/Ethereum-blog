@@ -63,11 +63,31 @@ button:hover {
   transition: 0.3s;
 }
 
+#header {
+  display: flex;
+  justify-content: center;
+}
+
+.header {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-left: auto;
+  margin-right: auto;
+  border: 4px;
+  border-style: solid;
+  border-color: greenyellow;
+  background-color: #212121;
+  margin-bottom: 70px;
+}
+
 h1 {
   color: greenyellow;
   font-family: 'Courier New', Courier, monospace;
   font-size: 100px;
   font-weight: lighter;
+  width: 50%;
+  text-align: center;
 }
 
 p {

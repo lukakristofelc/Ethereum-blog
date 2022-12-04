@@ -12,7 +12,8 @@ export class ChatListComponent extends React.Component {
         this.contract = props.contract;
         this.getFriends = this.getFriends.bind(this);
         this.setCurrentChatAddress = this.setCurrentChatAddress.bind(this);
-
+        this.closeChat = this.closeChat.bind(this);
+        
         this.state = {
             friends: [],
             currentChatAddress: ""
@@ -32,23 +33,37 @@ export class ChatListComponent extends React.Component {
         this.setState({currentChatAddress: address});
     }
 
+    closeChat() {
+        this.setState({currentChatAddress: ""});
+    }
+
     render() {
         this.getFriends();
         if (this.state.friends.length == 0)
         {
             return(
-                <div>
-                    <h2>You need friends in order to message them.</h2>
+                <div className='chat-selection'>
+                    <div className='chat-list'>
+                        <h2>You need friends in order to message them.</h2>
+                    </div>
                 </div>
             );
         }
         else
         {
             return(
-            <div>
-                <h2>SELECT A FRIEND YOU WOULD LIKE TO MESSAGE:</h2>
-                {this.state.friends.map(friend => <button key={friend['pubkey']} onClick={() => this.setCurrentChatAddress(friend['pubkey'])}>{friend['name']}</button>)}
-                {this.state.currentChatAddress != "" ? <ChatComponent key={this.state.currentChatAddress} contract={this.contract} currentChatAddress={this.state.currentChatAddress} /> :  <div />}
+            <div className='chat-selection'>
+                <div className='chat-list'>
+                    <h2>SELECT A FRIEND</h2>
+                    {this.state.friends.map(friend => <button key={friend['pubkey']} onClick={() => this.setCurrentChatAddress(friend['pubkey'])}>{friend['name']}</button>)}
+                </div>
+                {this.state.currentChatAddress != "" ? 
+                    <ChatComponent 
+                        key={this.state.currentChatAddress} 
+                        contract={this.contract} 
+                        currentChatAddress={this.state.currentChatAddress}
+                        closeChat={this.closeChat}
+                    /> : <div />}
             </div>
             )
         }

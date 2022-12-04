@@ -10,6 +10,7 @@ export class ChatComponent extends React.Component {
         this.contract = props.contract;
         this.sendMessage = this.sendMessage.bind(this);
         this.getChat = this.getChat.bind(this);
+        this.closeChat = props.closeChat;
 
         this.state = {
             chat: [],
@@ -45,11 +46,14 @@ export class ChatComponent extends React.Component {
             this.getChat(this.state.currentChatAddress);
         }
         return(
-            <div>
+            <div className='composer'>
+                <div className="close-button">
+                        <button onClick={this.closeChat}>CLOSE CHAT</button>
+                </div>
                 <div className="message-composer">
                     <div className="messages">
                         {this.state.chat.map(message => <p key={message[0]}><span id='sender_name'>{message[2]+": "}</span><br/>{message[4]}</p>)}
-                    </div>
+                    </div>  
                     <textarea 
                             type="text"
                             id='message_input'
