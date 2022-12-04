@@ -12,6 +12,7 @@ export class ForeignProfile extends React.Component {
         this.username = props.username;
         this.foreignAddress = props.foreignAddress;
         this.contract = props.contract;
+        this.isMod = props.isMod;
 
         this.getPosts = this.getPosts.bind(this);
         this.hasCorrectAddress = this.hasCorrectAddress.bind(this);
@@ -61,6 +62,8 @@ export class ForeignProfile extends React.Component {
                                                 content={objava['content']} 
                                                 timestamp={new Date(objava['timestamp'] * 1000).toLocaleString()}
                                                 currentUser={this.currentUser}
+                                                isProfile={true}
+                                                isMod={this.isMod}
                             />)
                 }
             </div>)

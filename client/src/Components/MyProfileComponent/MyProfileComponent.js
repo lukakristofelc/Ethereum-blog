@@ -78,6 +78,7 @@ export class MyProfile extends React.Component {
                                             content={objava['content']} 
                                             timestamp={new Date(objava['timestamp'] * 1000).toLocaleString()}
                                             currentUser={this.currentUser}
+                                            isProfile={true}
                         />)
                 }
             </div>)

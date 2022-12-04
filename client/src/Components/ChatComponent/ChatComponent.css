@@ -19,13 +19,15 @@ p {
     overflow-wrap: break-word;
     margin: auto;
     margin-top: 20px;
+    margin-bottom: 40px;
     border: 3px;
     border-style: solid;
     border-color: greenyellow;
     background-color: black;
     border-radius: 50px;
     overflow: auto; 
-    height: 800px;
+    height: auto;
+    max-height: 800px;
 }
 
 .messages {

@@ -97,6 +97,7 @@ export class Feed extends React.Component {
                                             isMod={this.isMod}
                                             contract={this.contract}
                                             currentUser={this.currentUser}
+                                            isProfile={false}
                         />)
                     }
                 </div>)
@@ -110,6 +111,7 @@ export class Feed extends React.Component {
                                     foreignAddress={this.state.foreignAddress} 
                                     contract={this.contract} 
                                     setFeedView={this.setFeedView}
+                                    isMod={this.isMod}
                     />
                 </div>)
         }
