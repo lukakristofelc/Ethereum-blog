@@ -16,7 +16,7 @@ export class SwitcherComponent extends React.Component {
 
         this.setFeedView = this.setFeedView.bind(this);
         this.setMessageView = this.setMessageView.bind(this);
-        this.setProfileView = this.setProfileView.bind(this);
+        this.setMyProfileView = this.setMyProfileView.bind(this);
 
         this.state = {
             view:'F',
@@ -35,44 +35,22 @@ export class SwitcherComponent extends React.Component {
         this.setState({view:'M'});
     }
 
-    setProfileView() {
+    setMyProfileView() {
         this.setState({view:'P'});
     }
 
     render() {
-        if (this.state.view == 'F') {
-            return (
-                <div>
-                    <h1>ETHEREUM BLOGCHAIN</h1>
-                    <button onClick={this.setFeedView}>FEED</button>
-                    <button onClick={this.setMessageView}>MESSAGES</button>
-                    <button onClick={this.setProfileView}>MY PROFILE</button>
-                    <Feed currentUser={this.currentUser} contract={this.contract} setMessageView={this.setMessageView} isMod={this.isMod}/>
-                </div>
-            )
-        }
-        else if (this.state.view == 'M') {
-            return (
-                <div>
-                    <h1>ETHEREUM BLOGCHAIN</h1>
-                    <button onClick={this.setFeedView}>FEED</button>
-                    <button onClick={this.setMessageView}>MESSAGES</button>
-                    <button onClick={this.setProfileView}>MY PROFILE</button>
-                    <ChatListComponent currentUser={this.currentUser} contract={this.contract}/>
-                </div>
-            )
-        }
-        else {
-            return (
-                <div>
-                    <h1>ETHEREUM BLOGCHAIN</h1>
-                    <button onClick={this.setFeedView}>FEED</button>
-                    <button onClick={this.setMessageView}>MESSAGES</button>
-                    <button onClick={this.setProfileView}>MY PROFILE</button>
-                    <MyProfile  currentUser={this.currentUser}
-                                contract={this.contract} />
-                </div>
-            )
-        }
+        return (
+            <div>
+                <h1>ETHEREUM BLOGCHAIN</h1>
+                <button onClick={this.setFeedView}>FEED</button>
+                <button onClick={this.setMessageView}>MESSAGES</button>
+                <button onClick={this.setMyProfileView}>MY PROFILE</button>
+                {   this.state.view === 'F' ? <Feed currentUser={this.currentUser} contract={this.contract} setMessageView={this.setMessageView} setMyProfileView={this.setMyProfileView} isMod={this.isMod}/> :
+                    this.state.view === 'M' ? <ChatListComponent currentUser={this.currentUser} contract={this.contract}/> :
+                    this.state.view === 'P' ? <MyProfile  currentUser={this.currentUser} contract={this.contract} /> : <div/>
+                }
+            </div>
+        )
     }
 }

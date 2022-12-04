@@ -52,7 +52,7 @@ export class Feed extends React.Component {
     }  
 
     setProfileView() {
-        this.setState({view: 'P'});
+        this.setState({view: 'FP'});
     }
 
     setFeedView() {
@@ -104,19 +104,26 @@ export class Feed extends React.Component {
         }
         else
         {
-            return(  
-                <div>
-                    <ForeignProfile currentUser={this.currentUser}
-                                    username={this.state.username}
-                                    foreignAddress={this.state.foreignAddress} 
-                                    contract={this.contract} 
-                                    setFeedView={this.setFeedView}
-                                    isMod={this.isMod}
-                    />
-                </div>)
+            if (this.currentUser.toLowerCase() === this.state.foreignAddress.toLowerCase())
+            {
+                this.props.setMyProfileView();
+            }
+            else
+            {
+                return(  
+                    <div>
+                        <ForeignProfile currentUser={this.currentUser}
+                                        username={this.state.username}
+                                        foreignAddress={this.state.foreignAddress} 
+                                        contract={this.contract} 
+                                        setFeedView={this.setFeedView}
+                                        isMod={this.isMod}
+                        />
+                    </div>
+                )
+            }
         }
-        
-      }
+    }
 }
 
 
