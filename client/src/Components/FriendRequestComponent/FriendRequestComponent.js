@@ -8,13 +8,15 @@ export class FriendRequest extends React.Component {
         this.contract = props.contract;
         this.name = props.name;
         this.address = props.address;
+        this.foreignProfile = props.foreignProfile;
 
         this.acceptRequest = this.acceptRequest.bind(this);
         this.declineRequest = this.declineRequest.bind(this);
+        this.goToProfile = this.goToProfile.bind(this);
     }
 
     goToProfile() {
-
+        this.props.setForeignProfileView(this.address, this.name);
     }
 
     async acceptRequest() {
@@ -36,7 +38,7 @@ export class FriendRequest extends React.Component {
     render() {
         return (
             <div>
-                <button onClick={this.goToProfile}>{this.name}</button>
+                {!this.foreignProfile ? <button onClick={this.goToProfile}>{this.name}</button> : <div/>}
                 <button onClick={this.acceptRequest}>ACCEPT</button>
                 <button onClick={this.declineRequest}>DECILNE</button>
             </div>)

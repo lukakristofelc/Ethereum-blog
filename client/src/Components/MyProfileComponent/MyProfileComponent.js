@@ -49,7 +49,7 @@ export class MyProfile extends React.Component {
 
     async getFriendRequests() {
         try {
-            const friendRequests = await this.contract.getFriendRequests();
+            const friendRequests = await this.contract.getFriendRequests(this.currentUser);
             this.setState({friendRequests: friendRequests});
         } catch (e) {
             console.log(e);
@@ -83,6 +83,8 @@ export class MyProfile extends React.Component {
                                                 contract={this.contract} 
                                                 name={friendRequest['name']} 
                                                 address={friendRequest['pubkey']}
+                                                setForeignProfileView={this.props.setForeignProfileView}
+                                                foreignProfile={false}
                                 />) : <p id='no-friends'>You don't have any friend requests at this moment.</p>
                         }
                     </div>

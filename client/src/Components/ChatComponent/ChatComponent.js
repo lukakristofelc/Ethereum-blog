@@ -15,7 +15,8 @@ export class ChatComponent extends React.Component {
         this.state = {
             chat: [],
             input: "",
-            currentChatAddress: props.currentChatAddress
+            currentChatAddress: props.currentChatAddress,
+            name: props.name
         }
     }
 
@@ -49,7 +50,8 @@ export class ChatComponent extends React.Component {
         return(
             <div className='composer'>
                 <div className="close-button">
-                        <button onClick={this.closeChat}>CLOSE CHAT</button>
+                    <button onClick={() => this.props.setForeignProfileView(this.state.currentChatAddress, this.state.name)}>VISIT PROFILE</button>
+                    <button onClick={this.closeChat}>CLOSE CHAT</button>
                 </div>
                 <div className="message-composer">
                     <div className="messages">

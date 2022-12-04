@@ -10,13 +10,16 @@ export class ChatListComponent extends React.Component {
         super(props);
         this.currentUser = props.currentUser;
         this.contract = props.contract;
+
+
         this.getFriends = this.getFriends.bind(this);
         this.setCurrentChatAddress = this.setCurrentChatAddress.bind(this);
         this.closeChat = this.closeChat.bind(this);
         
         this.state = {
             friends: [],
-            currentChatAddress: ""
+            currentChatAddress: "",
+            name: ""
         }
     }
 
@@ -29,8 +32,11 @@ export class ChatListComponent extends React.Component {
         }
     }
 
-    async setCurrentChatAddress(address) {
-        this.setState({currentChatAddress: address});
+    async setCurrentChatAddress(address, name) {
+        this.setState({
+            currentChatAddress: address,
+            name: name
+        });
     }
 
     closeChat() {
@@ -55,13 +61,15 @@ export class ChatListComponent extends React.Component {
             <div className='chat-selection'>
                 <div className='chat-list'>
                     <h2>SELECT A FRIEND</h2>
-                    {this.state.friends.map(friend => <button key={friend['pubkey']} onClick={() => this.setCurrentChatAddress(friend['pubkey'])}>{friend['name']}</button>)}
+                    {this.state.friends.map(friend => <button key={friend['pubkey']} onClick={() => this.setCurrentChatAddress(friend['pubkey'], friend['name'])}>{friend['name']}</button>)}
                 </div>
                 {this.state.currentChatAddress != "" ? 
-                    <ChatComponent 
+                    <ChatComponent
+                        setForeignProfileView={this.props.setForeignProfileView}
                         key={this.state.currentChatAddress} 
                         contract={this.contract} 
                         currentChatAddress={this.state.currentChatAddress}
+                        name={this.state.name}
                         closeChat={this.closeChat}
                     /> : <div />}
             </div>

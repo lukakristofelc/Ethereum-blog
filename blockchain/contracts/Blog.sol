@@ -87,26 +87,25 @@ contract Blog {
         users[friend_key].friendRequests.push(friendRequest);
     }
 
-    function getFriendRequests() external view returns (FriendRequest[] memory){
-        return users[msg.sender].friendRequests;
+    function getFriendRequests(address user) external view returns (FriendRequest[] memory){
+        return users[user].friendRequests;
     }
 
-    /*function checkIfFriends(address user1, address user2) internal view returns(bool) {
-        if (users[user1].friends.length > users[user2].friends.length) {  
-            for (uint i = 0; i < users[user2].friends.length; i++) {
-                if (users[user2].friends[i].pubkey == user1) {
-                    return true;
-                }
-            }
-        } else {
-            for (uint i = 0; i < users[user1].friends.length; i++) {
-                if (users[user1].friends[i].pubkey == user2) {
-                    return true;
-                }
-            }
+    function removeFriend(address user) external {
+        for (uint i = 0; i < users[msg.sender].friends.length; i++) {
+            if (users[msg.sender].friends[i].pubkey == user) {
+                users[msg.sender].friends[i] = users[msg.sender].friends[users[msg.sender].friends.length - 1];
+                users[msg.sender].friends.pop();
+            } 
         }
-        return false;
-    }*/
+
+        for (uint i = 0; i < users[user].friends.length; i++) {
+            if (users[user].friends[i].pubkey == msg.sender) {
+                users[user].friends[i] = users[user].friends[users[user].friends.length - 1];
+                users[user].friends.pop();
+            } 
+        }
+    }
 
     function getUser(address userAddress) external view returns(User memory) {
         return users[userAddress];

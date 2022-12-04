@@ -52,7 +52,6 @@ export class SwitcherComponent extends React.Component {
             foreignAddress: foreignAddress,
             username: username
         }
-        console.log(profileData);
 
         this.setState({ view:'FP',
                         profileData: profileData});
@@ -70,7 +69,7 @@ export class SwitcherComponent extends React.Component {
                     </div>
                 </div>
                 {   this.state.view === 'F' ? <Feed currentUser={this.currentUser} contract={this.contract} setMessageView={this.setMessageView} setMyProfileView={this.setMyProfileView} setForeignProfileView={this.setForeignProfileView} isMod={this.isMod}/> :
-                    this.state.view === 'M' ? <ChatListComponent currentUser={this.currentUser} contract={this.contract}/> :
+                    this.state.view === 'M' ? <ChatListComponent setForeignProfileView={this.setForeignProfileView} currentUser={this.currentUser} contract={this.contract}/> :
                     this.state.view === 'P' ? <MyProfile  currentUser={this.currentUser} contract={this.contract} setForeignProfileView={this.setForeignProfileView} /> : 
                     this.state.view === 'FP' ? <ForeignProfile key={this.state.profileData.foreignAddress} setForeignProfileView={this.setForeignProfileView} foreignAddress={this.state.profileData.foreignAddress} username={this.state.profileData.username} currentUser={this.currentUser} contract={this.contract} isMod={this.isMod} /> : <div/>
                 }
