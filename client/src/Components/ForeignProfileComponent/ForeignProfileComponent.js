@@ -20,7 +20,8 @@ export class ForeignProfile extends React.Component {
 
         this.state = {
             posts: [],
-            messageContent: ''
+            messageContent: '',
+            isFriend: false
         }
     }
 
@@ -45,13 +46,24 @@ export class ForeignProfile extends React.Component {
         }
     }
 
+    async isFriend() {
+        try {
+            const user = await this.contract.getUser(this.foreignAddress);
+            const isFriend = user['friends'].filter(friend => friend['pubkey'].toLowerCase() === this.currentUser.toLowerCase()).length === 1;
+            this.setState({isFriend: isFriend});
+        } catch (error) {
+            console.log(error);            
+        }
+    }
+
     render() {
         this.getPosts();
+        this.isFriend();
         return (
             <div>
                 <h2>{this.username}</h2>
                 <h2>{this.foreignAddress}</h2> <br/>
-                <button onClick={(this.sendFriendRequest)}>SEND FRIEND REQUEST</button>
+                { !this.state.isFriend ? <button onClick={(this.sendFriendRequest)}>SEND FRIEND REQUEST</button> : <div/>}
                 <button onClick={this.props.setFeedView}>BACK</button> <br/>
                 {
                     this.state.posts.map(objava =>
