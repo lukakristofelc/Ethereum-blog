@@ -30,6 +30,7 @@ p {
 .messages {
     margin-left: 15px;
     margin-bottom: 120px;
+    margin-top: 15px;
     overflow: auto;
     word-break: break-all;
 }
