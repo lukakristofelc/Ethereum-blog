@@ -28,6 +28,9 @@ p {
 }
 
 .messages {
+    display: flex;
+    flex: 1;
+    flex-direction: column-reverse;
     margin-left: 15px;
     margin-bottom: 120px;
     margin-top: 15px;

@@ -104,24 +104,7 @@ export class Feed extends React.Component {
         }
         else
         {
-            if (this.currentUser.toLowerCase() === this.state.foreignAddress.toLowerCase())
-            {
-                this.props.setMyProfileView();
-            }
-            else
-            {
-                return(  
-                    <div>
-                        <ForeignProfile currentUser={this.currentUser}
-                                        username={this.state.username}
-                                        foreignAddress={this.state.foreignAddress} 
-                                        contract={this.contract} 
-                                        setFeedView={this.setFeedView}
-                                        isMod={this.isMod}
-                        />
-                    </div>
-                )
-            }
+            this.props.setForeignProfileView(this.state.foreignAddress, this.state.username);
         }
     }
 }

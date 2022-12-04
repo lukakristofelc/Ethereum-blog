@@ -90,7 +90,7 @@ export class MyProfile extends React.Component {
                         <h2>FRIENDS</h2>
                         { this.state.friends.length > 0 ?
                             this.state.friends.map(friend => 
-                                <button key={friend['pubkey']}>{friend['name']}</button>
+                                <button onClick={() => this.props.setForeignProfileView(friend['pubkey'], friend['name'])} key={friend['pubkey']}>{friend['name']}</button>
                             ) : <p id='no-friends'>You don't have any friends.</p>
                         }
                     </div>      

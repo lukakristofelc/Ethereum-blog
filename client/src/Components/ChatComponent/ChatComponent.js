@@ -34,8 +34,9 @@ export class ChatComponent extends React.Component {
 
     async getChat(address) {
         try {
-           const chat = await this.contract.getChat(address);
-           this.setState({chat: chat});
+            let chat = await this.contract.getChat(address);
+            let reversedChat = [... chat].reverse();
+            this.setState({chat: reversedChat});
         } catch (error) {
             console.log(error);
         }

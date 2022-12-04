@@ -21,7 +21,8 @@ export class ForeignProfile extends React.Component {
         this.state = {
             posts: [],
             messageContent: '',
-            isFriend: false
+            isFriend: false,
+            friends: []
         }
     }
 
@@ -46,6 +47,15 @@ export class ForeignProfile extends React.Component {
         }
     }
 
+    async getFriends() {
+        try {
+            const user = await this.contract.getUser(this.foreignAddress);
+            this.setState({friends: user['friends']});
+        } catch (error) {
+            console.log(error);            
+        }
+    }
+
     async isFriend() {
         try {
             const user = await this.contract.getUser(this.foreignAddress);
@@ -59,14 +69,38 @@ export class ForeignProfile extends React.Component {
     render() {
         this.getPosts();
         this.isFriend();
+        this.getFriends();
         return (
-            <div>
-                <h2>{this.username}</h2>
-                <h2>{this.foreignAddress}</h2> <br/>
-                { !this.state.isFriend ? <button onClick={(this.sendFriendRequest)}>SEND FRIEND REQUEST</button> : <div/>}
-                <button onClick={this.props.setFeedView}>BACK</button> <br/>
-                {
-                    this.state.posts.map(objava =>
+            <div className='profile'>
+                <div className='profile-info'>
+                    <div className='user-info'>
+                        <h2>{this.username}</h2>
+                        <h2>{this.foreignAddress}</h2>
+                    </div>
+                    {this.state.isFriend ?
+                        <div className='friend-requests'>
+                            <h2>FRIENDS</h2>
+                            { this.state.friends.length > 0 ?
+                                this.state.friends.map(friend => 
+                                    <button onClick={() => this.props.setForeignProfileView(friend['pubkey'], friend['name'])} key={friend['pubkey']}>{friend['name']}</button>
+                                ) : <p id='no-friends'>You don't have any friends.</p>
+                            }
+                        </div> : 
+                        <div className='friend-requests'>
+                            <h2>You need to be friends with {this.username} to see their friends.</h2>
+                            <button onClick={(this.sendFriendRequest)}>SEND FRIEND REQUEST</button>
+                        </div>
+                    } 
+                </div>
+                {this.state.posts.length === 0 ?
+                    <div className='no-posts'> 
+                        <h2 id='posts-title'>POSTS</h2> 
+                        <p>You have no posts to display.</p> 
+                    </div> : 
+                    <div className='posts'>
+                        <h2>POSTS</h2>
+                        {
+                        this.state.posts.map(objava =>
                             <ObjavaComponent    key={objava['id']}
                                                 id={objava['id']}
                                                 authorKey={objava['pubkey']}
@@ -75,8 +109,9 @@ export class ForeignProfile extends React.Component {
                                                 timestamp={new Date(objava['timestamp'] * 1000).toLocaleString()}
                                                 currentUser={this.currentUser}
                                                 isProfile={true}
-                                                isMod={this.isMod}
                             />)
+                        }
+                    </div>
                 }
             </div>)
     }
