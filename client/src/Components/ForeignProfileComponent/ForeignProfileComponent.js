@@ -158,6 +158,7 @@ export class ForeignProfile extends React.Component {
                                                 timestamp={new Date(objava['timestamp'] * 1000).toLocaleString()}
                                                 currentUser={this.currentUser}
                                                 isProfile={true}
+                                                isMod={this.isMod}
                             />)
                         }
                     </div>
