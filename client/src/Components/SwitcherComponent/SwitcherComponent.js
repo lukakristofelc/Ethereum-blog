@@ -24,7 +24,8 @@ export class SwitcherComponent extends React.Component {
             view:'F',
             profileData: {
                 foreignAddress:'',
-                username:''
+                username:'',
+                numOfFriendRequests: 0
             }
         }
     }
@@ -57,7 +58,17 @@ export class SwitcherComponent extends React.Component {
                         profileData: profileData});
     }
 
+    async getFriendRequests() {
+        try {
+            const friendRequests = await this.contract.getFriendRequests(this.currentUser);
+            this.setState({numOfFriendRequests: friendRequests.length});
+        } catch (e) {
+            console.log(e);
+        }
+    }
+
     render() {
+        this.getFriendRequests();
         return (
             <div>
                 <div className='header'>
@@ -65,7 +76,7 @@ export class SwitcherComponent extends React.Component {
                     <div className="buttons">
                         <button onClick={this.setFeedView}>FEED</button>
                         <button onClick={this.setMessageView}>MESSAGES</button>
-                        <button onClick={this.setMyProfileView}>MY PROFILE</button>
+                        <button onClick={this.setMyProfileView}>MY PROFILE {this.state.numOfFriendRequests > 0 ? <span> | {this.state.numOfFriendRequests}</span> : <span/>} </button>
                     </div>
                 </div>
                 {   this.state.view === 'F' ? <Feed currentUser={this.currentUser} contract={this.contract} setMessageView={this.setMessageView} setMyProfileView={this.setMyProfileView} setForeignProfileView={this.setForeignProfileView} isMod={this.isMod}/> :

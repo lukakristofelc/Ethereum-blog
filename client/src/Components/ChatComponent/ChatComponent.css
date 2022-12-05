@@ -23,7 +23,7 @@ p {
     border-color: greenyellow;
     background-color: #212121;
     overflow: auto; 
-    height: auto;
+    height: 500px;
     max-height: 800px;
 }
 
