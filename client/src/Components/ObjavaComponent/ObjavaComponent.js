@@ -16,13 +16,23 @@ export class ObjavaComponent extends React.Component {
     this.isProfile = props.isProfile;
     
     this.deletePost = this.deletePost.bind(this);
+    this.deleteOwnPost = this.deleteOwnPost.bind(this);
     this.handleClick = this.handleClick.bind(this);
   }
 
   async deletePost() {
     try {
-      console.log(this.contract.deletePost)
+      console.log(this.id.toNumber())
       await this.contract.deletePost(this.id.toNumber());
+    }
+    catch(error) {
+      console.log(error);
+    }
+  }
+
+  async deleteOwnPost() {
+    try {
+      await this.contract.deleteOwnPost(this.id.toNumber());
     }
     catch(error) {
       console.log(error);
@@ -42,7 +52,7 @@ export class ObjavaComponent extends React.Component {
           {!this.isProfile ? <button className='author' onClick={this.handleClick}>{this.author}</button> : <div/>}
           <div className='vsebina'>{this.content}</div>
           <div className='timestamp'>{this.timestamp}</div>
-          {this.isMod || this.authorKey === this.currentUser ? <button onClick={this.deletePost}>DELETE</button> : <div/>}
+          {this.isMod ? <button onClick={this.deletePost}>DELETE</button> : this.authorKey === this.currentUser ? <button onClick={this.deleteOwnPost}>DELETE</button> : <div/>}
         </div>
       </div>
     )

@@ -66,7 +66,6 @@ export class ForeignProfile extends React.Component {
 
             const requestsCurrentUser = await this.contract.getFriendRequests(this.currentUser);
             const requestSentCurrentUser = requestsCurrentUser.filter(request => request['pubkey'].toLowerCase() === this.foreignAddress.toLowerCase()).length === 1;
-            console.log(requestSentCurrentUser)
             this.setState({
                 requestSent: requestSent,
                 requestSentCurrentUser: requestSentCurrentUser

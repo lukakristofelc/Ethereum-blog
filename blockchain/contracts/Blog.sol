@@ -24,7 +24,7 @@ contract Blog {
         Friend[] friends;
         Post[] posts;
         FriendRequest[] friendRequests;
-        bool isMod;
+        UserType userType;
     }
 
     struct Friend {
@@ -41,6 +41,9 @@ contract Blog {
     mapping(address => User) users;
     mapping(bytes32 => Message[]) public chats;
 
+    enum UserType { Moderator, Regular }
+    event NewUserCreated(address newUserAddress, string newUserName);
+    error NotUsersPost(address postOwner, address userDeleting);
 
     // *****
     // USERS
@@ -50,10 +53,20 @@ contract Blog {
     }
 
     function createNewUser(string calldata name, bool isMod) external {
-        require(doesUserExist(msg.sender)==false, "User already exists!");
+        require(doesUserExist(msg.sender) == false, "User already exists!");
         require(bytes(name).length>0, "Username cannot be empty!"); 
         users[msg.sender].name = name;
-        users[msg.sender].isMod = isMod;
+
+        if (isMod)
+        {
+            users[msg.sender].userType = UserType.Moderator;
+        }
+        else
+        {
+            users[msg.sender].userType = UserType.Regular;
+        }
+
+        emit NewUserCreated(msg.sender, name);
     }
 
     function addFriend(address friend_key, string calldata name) external {
@@ -145,12 +158,44 @@ contract Blog {
         return allPosts;
     }
 
-    function deletePost(uint id) external {
-        require(users[msg.sender].isMod == true);
-        require(id < allPosts.length);
-        allPosts[id] = allPosts[allPosts.length-1];
-        allPosts.pop();
+    modifier isModerator {
+        require(users[msg.sender].userType == UserType.Moderator);
+        _;
     }
+
+    function deletePost(uint id) isModerator external {
+        for (uint i = 0; i < allPosts.length; i++) {
+            if (allPosts[i].id == id) {
+                allPosts[i] = allPosts[allPosts.length-1];
+                allPosts.pop();
+            } 
+        }
+
+        for (uint i = 0; i < users[msg.sender].posts.length; i++) {
+            if (users[msg.sender].posts[i].id == id) {
+                users[msg.sender].posts[i] = users[msg.sender].posts[users[msg.sender].posts.length-1];
+                users[msg.sender].posts.pop();
+            } 
+        }        
+    }
+
+    function deleteOwnPost(uint id) external {
+        if (allPosts[id].pubkey != msg.sender) {
+            revert NotUsersPost(allPosts[id].pubkey, msg.sender);
+        } else {
+            for (uint i = 0; i < allPosts.length; i++) {
+                if (allPosts[i].id == id) {
+                    allPosts[i] = allPosts[allPosts.length-1];
+                    allPosts.pop();
+                } 
+            }
+
+            for (uint i = 0; i < users[msg.sender].posts.length; i++) {
+                if (users[msg.sender].posts[i].id == id) {
+                    users[msg.sender].posts[i] = users[msg.sender].posts[users[msg.sender].posts.length-1];
+                    users[msg.sender].posts.pop();
+                } 
+            }
+        }
+    } 
 }
-
-
