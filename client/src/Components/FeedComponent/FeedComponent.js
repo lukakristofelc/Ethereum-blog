@@ -1,115 +1,92 @@
-import React from 'react';
+import {useEffect, useState} from 'react';
 import './FeedComponent.css';
 import { ObjavaComponent } from '../ObjavaComponent/ObjavaComponent';
 import { ForeignProfile } from '../ForeignProfileComponent/ForeignProfileComponent';
 
-export class Feed extends React.Component {
+export default function Feed() 
+{
+        let currentUser = props.currentUser;
+        let contract = props.contract;
+        let isMod = props.isMod;
 
-    constructor(props) {
-        super(props);
-        this.currentUser = props.currentUser;
-        this.contract = props.contract;
-        this.isMod = props.isMod;
+        const [posts, setPosts] = useState([]);
+        const [view, setView] = useState('');
+        const [username, setUsername] = useState('');
+        const [foreignAddress, setForeignAddress] = useState('');
+        const [input, setInput] = useState('');
 
-        this.getPosts = this.getPosts.bind(this);
-        this.addPost = this.addPost.bind(this);
-        this.setFeedView = this.setFeedView.bind(this);
-        this.setProfileView = this.setProfileView.bind(this);
-        this.setForeignAddress = this.setForeignAddress.bind(this);
-        this.setUsername = this.setUsername.bind(this);
-
-        this.state = {
-            posts: [],
-            view: 'F',
-            username: '',
-            foreignAddress: '',
-            input:''
-        }
-    }
-
-    async getPosts() {    
+    const getPosts = async() => {    
         try {
-          let postList = await this.contract.getPosts();
-          this.setState({posts: orderPosts(postList)});
-    
+          let postList = await contract.getPosts();
+          setrPosts(orderPosts(postList));
         } catch(e) {
           console.log(e);
         }
     }
 
-    async addPost() {
+    const addPost = async() => {
         try {
-            if (this.state.input == "")
+            if (input == "")
             {
                 alert("Your post cannot be empty.");
                 return;
             }
-            await this.contract.addPost(this.state.input);
-            this.setState({input:''});   
+            await contract.addPost(input);
+            setInput('');
         } catch(error) {
             console.log(error);
         }
     }  
 
-    setProfileView() {
-        this.setState({view: 'FP'});
+    const setProfileView = () => {
+        setView('FP');
     }
 
-    setFeedView() {
-        this.setState({view: 'F'});
+    const setFeedView = () => {
+        setView('F');
     }
 
-    setForeignAddress(foreignAddress) {
-        this.setState({foreignAddress: foreignAddress});
+    if (view === 'F')
+    {
+        getPosts();
+        return(  
+            <div>
+                <textarea 
+                    type="text"
+                    placeholder="Insert new post"
+                    onChange={e => setInput(e.target.value)}
+                    value={input}
+                    rows="8" cols="50"
+                />
+                <br/>
+                <button onClick={addPost}>POST</button> <br/>
+                {
+                this.state.posts.map(objava =>
+                    <ObjavaComponent    key={objava['id']}
+                                        id={objava['id']}
+                                        author={objava['author']}
+                                        authorKey={objava['pubkey']}
+                                        content={objava['content']} 
+                                        timestamp={new Date(objava['timestamp'] * 1000).toLocaleString()}
+                                        setProfileView={setProfileView}
+                                        setFeedView={setFeedView}
+                                        setForeignAddress={setForeignAddress}
+                                        setUsername={setUsername}
+                                        isMod={isMod}
+                                        contract={contract}
+                                        currentUser={currentUser}
+                                        isProfile={false}
+                    />)
+                }
+            </div>)
     }
-
-    setUsername(username) {
-        this.setState({username: username});
-    }
-
-    render() {
-        if (this.state.view === 'F')
-        {
-            this.getPosts();
-            return(  
-                <div>
-                    <textarea 
-                        type="text"
-                        placeholder="Insert new post"
-                        onChange={e => this.setState({input: e.target.value})}
-                        value={this.state.input}
-                        rows="8" cols="50"
-                    />
-                    <br/>
-                    <button onClick={this.addPost}>POST</button> <br/>
-                    {
-                    this.state.posts.map(objava =>
-                        <ObjavaComponent    key={objava['id']}
-                                            id={objava['id']}
-                                            author={objava['author']}
-                                            authorKey={objava['pubkey']}
-                                            content={objava['content']} 
-                                            timestamp={new Date(objava['timestamp'] * 1000).toLocaleString()}
-                                            setProfileView={this.setProfileView}
-                                            setFeedView={this.setFeedView}
-                                            setForeignAddress={this.setForeignAddress}
-                                            setUsername={this.setUsername}
-                                            isMod={this.isMod}
-                                            contract={this.contract}
-                                            currentUser={this.currentUser}
-                                            isProfile={false}
-                        />)
-                    }
-                </div>)
-        }
-        else
-        {
-            this.props.setForeignProfileView(this.state.foreignAddress, this.state.username);
-        }
+    else
+    {
+        props.setForeignProfileView(foreignAddress, username);
     }
 }
 
 
 const orderPosts = (accounts) => {
     return accounts.slice().sort((a, b) => b['timestamp'] - a['timestamp']);
-  }
+}
