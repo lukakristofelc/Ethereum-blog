@@ -18,7 +18,7 @@ export default function Feed()
     const getPosts = async() => {    
         try {
           let postList = await contract.getPosts();
-          setrPosts(orderPosts(postList));
+          setPosts(orderPosts(postList));
         } catch(e) {
           console.log(e);
         }
@@ -61,7 +61,7 @@ export default function Feed()
                 <br/>
                 <button onClick={addPost}>POST</button> <br/>
                 {
-                this.state.posts.map(objava =>
+                posts.map(objava =>
                     <ObjavaComponent    key={objava['id']}
                                         id={objava['id']}
                                         author={objava['author']}
