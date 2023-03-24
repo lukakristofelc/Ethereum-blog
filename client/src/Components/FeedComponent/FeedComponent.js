@@ -25,12 +25,8 @@ export default function Feed()
     }
 
     const addPost = async() => {
+        if (!input) return;
         try {
-            if (input == "")
-            {
-                alert("Your post cannot be empty.");
-                return;
-            }
             await contract.addPost(input);
             setInput('');
         } catch(error) {
