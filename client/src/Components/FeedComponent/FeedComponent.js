@@ -29,8 +29,8 @@ export class Feed extends React.Component {
 
     async getPosts() {    
         try {
-          let objaveList = await this.contract.getPosts();
-          this.setState({posts: orderPosts(objaveList)});
+          let postList = await this.contract.getPosts();
+          this.setState({posts: orderPosts(postList)});
     
         } catch(e) {
           console.log(e);
