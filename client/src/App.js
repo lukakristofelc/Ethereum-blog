@@ -63,15 +63,13 @@ function App() {
       }
 
       const accounts = await ethereum.request({method: 'eth_requestAccounts'});
-      setIsMod(accounts[0].toLowerCase() === ModeratorAddress.toLowerCase());
 
-      if (!await contract.doesUserExist(accounts[0]))
-      {
+      if (!await contract.doesUserExist(accounts[0])) {
         setShowTextArea(true);
-      }
-      else
-      {
+        setIsMod(accounts[0].toLowerCase() === ModeratorAddress.toLowerCase());
+      } else {
         setCurrentUser(accounts[0]);
+        setIsMod(accounts[0].toLowerCase() === ModeratorAddress.toLowerCase());
       }
     } catch (e) {
       console.log(e);
