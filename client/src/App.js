@@ -66,7 +66,6 @@ function App() {
 
       if (!await contract.doesUserExist(accounts[0])) {
         setShowTextArea(true);
-        setIsMod(accounts[0].toLowerCase() === ModeratorAddress.toLowerCase());
       } else {
         setCurrentUser(accounts[0]);
         setIsMod(accounts[0].toLowerCase() === ModeratorAddress.toLowerCase());
