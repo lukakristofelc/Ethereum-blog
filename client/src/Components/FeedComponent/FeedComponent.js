@@ -3,14 +3,14 @@ import './FeedComponent.css';
 import { ObjavaComponent } from '../ObjavaComponent/ObjavaComponent';
 import { ForeignProfile } from '../ForeignProfileComponent/ForeignProfileComponent';
 
-export default function Feed() 
+export default function Feed(props) 
 {
         let currentUser = props.currentUser;
         let contract = props.contract;
         let isMod = props.isMod;
 
         const [posts, setPosts] = useState([]);
-        const [view, setView] = useState('');
+        const [view, setView] = useState('F');
         const [username, setUsername] = useState('');
         const [foreignAddress, setForeignAddress] = useState('');
         const [input, setInput] = useState('');
@@ -41,6 +41,8 @@ export default function Feed()
     const setFeedView = () => {
         setView('F');
     }
+
+    console.log(view);
 
     if (view === 'F')
     {

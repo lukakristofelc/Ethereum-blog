@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import './SwitcherComponent.css';
 import Blog from '../../utils/Blog.json'
 import { ethers } from 'ethers';
-import { Feed } from '../FeedComponent/FeedComponent';
+import Feed from '../FeedComponent/FeedComponent';
 import { ChatListComponent } from '../ChatListComponent/ChatListComponent';
 import { MyProfile } from '../MyProfileComponent/MyProfileComponent';
 import { ForeignProfile } from '../ForeignProfileComponent/ForeignProfileComponent';
